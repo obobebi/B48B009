@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B48B009劉綱的個人網站</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'main-bg': '#8080C0',
+                        'nav-bg': '#0066CC',
+                        'nav-hover': '#0052A3',
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #8080C0;
+            font-family: 'Noto Sans TC', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Glassmorphism card effects */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Custom animation for tab content switching */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Nav active state indicator */
+        .nav-btn.active {
+            background-color: #004080;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.6);
+        }
+    </style>
+</head>
+<body class="text-gray-800 antialiased flex flex-col justify-between min-h-screen">
+
+    <!-- Header Section -->
+    <header class="w-full shadow-lg sticky top-0 z-50">
+        <!-- Top branding banner -->
+        <div class="bg-slate-900 text-white px-4 py-4 sm:px-8 flex items-center justify-between border-b border-white/10">
+            <div class="flex items-center space-x-3">
+                <div class="bg-white/10 p-2.5 rounded-xl border border-white/20">
+                    <i class="fa-solid font-bold text-xl text-blue-300 fa-user-graduate"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-bold tracking-wide text-white">B48B009劉綱的個人網站</h1>
+                    <p class="text-xs text-slate-300">Personal Space & Academic Journey</p>
+                </div>
+            </div>
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-white hover:text-blue-200 focus:outline-none p-2" aria-label="Toggle Navigation">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Navigation Bar (Background #0066CC) -->
+        <nav class="bg-[#0066CC] shadow-md">
+            <div class="max-w-6xl mx-auto px-2 sm:px-6">
+                <!-- Desktop Navigation Links -->
+                <div id="desktop-menu" class="hidden md:flex items-center space-x-1 py-2 overflow-x-auto">
+                    <button onclick="switchTab('life')" id="btn-life" class="nav-btn active text-white px-5 py-3 rounded-lg font-medium text-sm sm:text-base hover:bg-[#0052A3] transition-all duration-200 flex items-center space-x-2 whitespace-nowrap">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>我目前的大學生活情況</span>
+                    </button>
+                    <button onclick="switchTab('trouble')" id="btn-trouble" class="nav-btn text-white px-5 py-3 rounded-lg font-medium text-sm sm:text-base hover:bg-[#0052A3] transition-all duration-200 flex items-center space-x-2 whitespace-nowrap">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <span>不停困擾我的問題</span>
+                    </button>
+                    <!-- External Link to Ling Tung University -->
+                    <a href="https://www.ltu.edu.tw/" target="_blank" rel="noopener noreferrer" class="text-white px-5 py-3 rounded-lg font-medium text-sm sm:text-base hover:bg-[#0052A3] transition-all duration-200 flex items-center space-x-2 whitespace-nowrap bg-blue-700/50 border border-blue-400/30">
+                        <i class="fa-solid fa-building-columns text-yellow-300"></i>
+                        <span>目前就讀的大學</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-75"></i>
+                    </a>
+                    <button onclick="switchTab('reflection')" id="btn-reflection" class="nav-btn text-white px-5 py-3 rounded-lg font-medium text-sm sm:text-base hover:bg-[#0052A3] transition-all duration-200 flex items-center space-x-2 whitespace-nowrap">
+                        <i class="fa-solid fa-code"></i>
+                        <span>網站的製作心得</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobile-menu" class="hidden md:hidden bg-[#0052A3] border-t border-blue-400/30 px-4 pt-2 pb-4 space-y-2">
+                <button onclick="switchTab('life'); toggleMobileMenu();" id="mobile-btn-life" class="w-full text-left text-white px-4 py-3 rounded-lg font-medium flex items-center space-x-3 hover:bg-blue-800 transition">
+                    <i class="fa-solid fa-graduation-cap w-6"></i>
+                    <span>我目前的大學生活情況</span>
+                </button>
+                <button onclick="switchTab('trouble'); toggleMobileMenu();" id="mobile-btn-trouble" class="w-full text-left text-white px-4 py-3 rounded-lg font-medium flex items-center space-x-3 hover:bg-blue-800 transition">
+                    <i class="fa-solid fa-lightbulb w-6"></i>
+                    <span>不停困擾我的問題</span>
+                </button>
+                <a href="https://www.ltu.edu.tw/" target="_blank" rel="noopener noreferrer" class="w-full text-left text-white px-4 py-3 rounded-lg font-medium flex items-center justify-between hover:bg-blue-800 transition bg-blue-900/40">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-building-columns text-yellow-300 w-6"></i>
+                        <span>目前就讀的大學 (嶺東科大)</span>
+                    </div>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                </a>
+                <button onclick="switchTab('reflection'); toggleMobileMenu();" id="mobile-btn-reflection" class="w-full text-left text-white px-4 py-3 rounded-lg font-medium flex items-center space-x-3 hover:bg-blue-800 transition">
+                    <i class="fa-solid fa-code w-6"></i>
+                    <span>網站的製作心得</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-8 sm:py-12">
+        
+        <!-- Welcome Hero Banner -->
+        <div class="mb-8 text-center text-white space-y-2">
+            <span class="bg-white/20 text-white text-xs px-3 py-1 rounded-full uppercase tracking-wider font-semibold backdrop-blur-md">Student Profile</span>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-slate-900 drop-shadow-sm">歡迎來到劉綱的個人空間</h2>
+            <p class="text-slate-800 max-w-xl mx-auto text-sm sm:text-base font-medium">記錄關於我的學習點滴、生活思考與個人心得</p>
+        </div>
+
+        <!-- Card Container -->
+        <div class="glass-card rounded-2xl shadow-2xl p-6 sm:p-10 border border-white/50">
+
+            <!-- Section 1: 我目前的大學生活情況 -->
+            <div id="tab-life" class="tab-content active space-y-6">
+                <div class="flex items-center space-x-4 border-b border-gray-200 pb-4">
+                    <div class="bg-blue-100 text-[#0066CC] w-12 h-12 rounded-xl flex items-center justify-center text-2xl font-bold shadow-sm">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-800">我目前的大學生活情況</h3>
+                        <p class="text-xs text-gray-500">University Life & Academic Status</p>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 p-6 rounded-xl border border-blue-50 shadow-sm leading-relaxed text-gray-700 text-base sm:text-lg">
+                    <p class="indent-8">
+                        距離我到嶺東上課已經過去了一年，說實話覺得有些快了，平常上完課沒事就回家，日復一日，就這麼過來了，不過要說有學到甚麼嗎?我只能說有，但由於大學是以自習為主的學習方式，所以成效有限，還是得花多點時間在這方面上。
+                    </p>
+                </div>
+
+                <!-- Info Cards Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <div class="p-4 bg-indigo-50/70 rounded-xl border border-indigo-100 flex items-start space-x-3">
+                        <i class="fa-solid fa-clock text-indigo-500 text-xl mt-1"></i>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 text-sm">學習時長</h4>
+                            <p class="text-xs text-gray-600">已在嶺東科技大學就讀滿一年</p>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-blue-50/70 rounded-xl border border-blue-100 flex items-start space-x-3">
+                        <i class="fa-solid fa-book-open text-blue-500 text-xl mt-1"></i>
+                        <div>
+                            <h4 class="font-semibold text-gray-800 text-sm">學習模式</h4>
+                            <p class="text-xs text-gray-600">自主學習為主，持續精進技能中</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: 不停困擾我的問題 -->
+            <div id="tab-trouble" class="tab-content space-y-6">
+                <div class="flex items-center space-x-4 border-b border-gray-200 pb-4">
+                    <div class="bg-amber-100 text-amber-600 w-12 h-12 rounded-xl flex items-center justify-center text-2xl font-bold shadow-sm">
+                        <i class="fa-solid fa-lightbulb"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-800">不停困擾我的問題</h3>
+                        <p class="text-xs text-gray-500">Creative Block & Mindset Challenge</p>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 p-6 rounded-xl border border-amber-50 shadow-sm leading-relaxed text-gray-700 text-base sm:text-lg">
+                    <p class="indent-8">
+                        我很常沒靈感，非常常沒靈感，明明還沒探討出技術問題，卻先被自己的腦袋卡死，就像做現在這個網站，究竟要做甚麼內容我也一直很糾結，不過有個方向後就會像用了威猛先生的水槽一樣暢通無阻。
+                    </p>
+                </div>
+
+                <!-- Quote Highlight -->
+                <div class="bg-amber-50/80 border-l-4 border-amber-500 p-4 rounded-r-xl text-amber-900 text-sm sm:text-base italic">
+                    <i class="fa-solid fa-quote-left text-amber-400 mr-2"></i>
+                    「突破卡關的核心在於找到關鍵方向，一旦開通，思緒便水到渠成。」
+                </div>
+            </div>
+
+            <!-- Section 3: 網站的製作心得 -->
+            <div id="tab-reflection" class="tab-content space-y-6">
+                <div class="flex items-center space-x-4 border-b border-gray-200 pb-4">
+                    <div class="bg-emerald-100 text-emerald-600 w-12 h-12 rounded-xl flex items-center justify-center text-2xl font-bold shadow-sm">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-800">網站的製作心得</h3>
+                        <p class="text-xs text-gray-500">Development Reflections</p>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 p-8 rounded-xl border border-emerald-50 shadow-sm leading-relaxed text-gray-700 text-base sm:text-lg flex flex-col items-center justify-center text-center py-10 space-y-4">
+                    <div class="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-500 text-3xl mb-2">
+                        <i class="fa-solid fa-face-smile-wink"></i>
+                    </div>
+                    <p class="text-xl sm:text-2xl font-bold text-gray-800">
+                        「有趣，就是時間對於我來說有些吃緊。」
+                    </p>
+                    <p class="text-sm text-gray-500 max-w-md">
+                        在有限的時間內完成網站設計與建置，雖然帶來挑戰，但也體會到了創作與編程的樂趣。
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full bg-slate-900 text-slate-400 py-6 text-center text-xs sm:text-sm border-t border-white/10 mt-12">
+        <div class="max-w-6xl mx-auto px-4 space-y-2">
+            <p class="font-medium text-slate-300">B48B009 劉綱的個人網站 &copy; 2026 All Rights Reserved.</p>
+            <p class="text-slate-500 text-xs">設計風格：我也不清楚</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Tab switching function
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Reset active states for desktop buttons
+            const navBtns = document.querySelectorAll('.nav-btn');
+            navBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab content
+            const targetContent = document.getElementById('tab-' + tabName);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+
+            // Set active state for target nav button
+            const targetBtn = document.getElementById('btn-' + tabName);
+            if (targetBtn) {
+                targetBtn.classList.add('active');
+            }
+
+            // Smooth scroll to top of content on mobile if scrolled down
+            if (window.innerWidth < 768) {
+                const mainArea = document.querySelector('main');
+                mainArea.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+    </script>
+</body>
+</html>
